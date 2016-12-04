@@ -63,7 +63,7 @@ public class FileChooser extends JFrame {
 
         fileChooser.setAccessory(new ImagePreviewer(fileChooser));
         fileChooser.setFileView(new FileIconView(filter, new ImageIcon(
-                FileChooser.this.getClass().getResource("palette.gif"))));
+                FileChooser.class.getResource("palette.gif"))));
     }
 
     private class FileOpenListener implements ActionListener {
@@ -176,6 +176,8 @@ class ImagePreviewer extends JLabel {
                         icon = new ImageIcon(icon.getImage().getScaledInstance(
                                 getWidth(), -1, Image.SCALE_DEFAULT));
                     }
+                    
+                    setIcon(icon);
                 }
 
             }
