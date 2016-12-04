@@ -4,6 +4,7 @@ import com.sun.rowset.*;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -35,6 +36,7 @@ import javax.swing.JTextField;
  * @author bob
  * 
  */
+@SuppressWarnings("serial")
 public class ViewDB extends JFrame {
 
     public ViewDB() {
@@ -70,6 +72,45 @@ public class ViewDB extends JFrame {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, e);
         }
+        
+        JPanel buttonPanel = new JPanel();
+        add(buttonPanel, BorderLayout.SOUTH);
+        
+        previousButton = new JButton("Previous");
+        previousButton.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+                showPreviousRow();
+            }
+        });
+        buttonPanel.add(previousButton);
+        
+        nextButton = new JButton("Next");
+        nextButton.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+                showNextRow();
+            }
+        });
+        buttonPanel.add(nextButton);
+        
+        deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+                deleteRow();
+            }
+        });
+        buttonPanel.add(deleteButton);
+        
+        saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+                saveChanges();
+            }
+        });
+        buttonPanel.add(saveButton);
     }
 
     public void showTable(String tblName) {
@@ -112,7 +153,7 @@ public class ViewDB extends JFrame {
             crs.previous();
             dataPanel.showRow(crs);
         } catch (SQLException e) {
-            // TODO: handle exception
+            JOptionPane.showMessageDialog(this, e);
         }
     }
 
@@ -193,6 +234,17 @@ public class ViewDB extends JFrame {
         String password = props.getProperty("jdbc.password");
 
         return DriverManager.getConnection(url, user, password);
+    }
+    
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            
+            public void run() {
+                JFrame frame = new ViewDB();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(true);
+            }
+        });
     }
 
     private static final int DEFAULT_WIDTH = 400;
