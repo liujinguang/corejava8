@@ -1,7 +1,5 @@
 package v1ch12;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class ArrayAlg {
 	public static Pair<String> minmax(String[] a) {
