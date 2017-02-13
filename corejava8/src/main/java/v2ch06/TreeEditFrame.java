@@ -1,11 +1,14 @@
 package v2ch06;
 
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -15,7 +18,19 @@ import javax.swing.tree.TreePath;
 public class TreeEditFrame extends JFrame {
 
     public TreeEditFrame() {
-        // TODO Auto-generated constructor stub
+        setTitle("TreeEditFrame");
+        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+
+        // construct tree
+        TreeNode root = makeSampleTree();
+        model = new DefaultTreeModel(root);
+        tree = new JTree(model);
+        tree.setEditable(true);
+
+        JScrollPane scrollPane = new JScrollPane(tree);
+        add(scrollPane, BorderLayout.CENTER);
+
+        makeButtons();
     }
 
     public TreeNode makeSampleTree() {
@@ -85,21 +100,44 @@ public class TreeEditFrame extends JFrame {
                 if (selectedNode == null) {
                     return;
                 }
-                
-                DefaultMutableTreeNode newNode = new DefaultMutableTreeNode("New"  );
-                model.insertNodeInto(newNode, selectedNode, selectedNode.getChildCount());
-                
-                //display new node now
+
+                DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(
+                        "New");
+                model.insertNodeInto(newNode, selectedNode,
+                        selectedNode.getChildCount());
+
+                // display new node now
                 TreeNode[] nodes = model.getPathToRoot(newNode);
                 TreePath path = new TreePath(nodes);
                 tree.scrollPathToVisible(path);
             }
         });
         panel.add(addChildButton);
+
+        JButton deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree
+                        .getLastSelectedPathComponent();
+                if (selectedNode != null && selectedNode.getParent() != null) {
+                    model.removeNodeFromParent(selectedNode);
+                }
+            }
+        });
+        panel.add(deleteButton);
+        add(panel, BorderLayout.SOUTH);
     }
 
     public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
 
+            public void run() {
+                JFrame frame = new TreeEditFrame();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(true);
+            }
+        });
     }
 
     private DefaultTreeModel model;
