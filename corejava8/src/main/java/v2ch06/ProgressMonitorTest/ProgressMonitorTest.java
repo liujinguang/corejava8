@@ -14,18 +14,17 @@ import javax.swing.ProgressMonitor;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
-
 public class ProgressMonitorTest {
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			
-			public void run() {
-				JFrame frame = new ProgressMonitorFrame();
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setVisible(true);
-			}
-		});
-	}
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+
+            public void run() {
+                JFrame frame = new ProgressMonitorFrame();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(true);
+            }
+        });
+    }
 }
 
 /**
@@ -33,93 +32,93 @@ public class ProgressMonitorTest {
  * for the activity output
  * 
  * @author jliu
- *
+ * 
  */
 class ProgressMonitorFrame extends JFrame {
-	public ProgressMonitorFrame() {
-		setTitle("ProgressMonitorTest");
-		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    public ProgressMonitorFrame() {
+        setTitle("ProgressMonitorTest");
+        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
-		// this text area holds the activity output
-		textArea = new JTextArea();
-//		add(textArea, BorderLayout.CENTER);
+        // this text area holds the activity output
+        textArea = new JTextArea();
+        // add(textArea, BorderLayout.CENTER);
 
-		// set up a button panel
-		JPanel panel = new JPanel();
-		startButton = new JButton("Start");
-		panel.add(startButton);
+        // set up a button panel
+        JPanel panel = new JPanel();
+        startButton = new JButton("Start");
+        panel.add(startButton);
 
-		add(new JScrollPane(textArea), BorderLayout.CENTER);
-		add(panel, BorderLayout.SOUTH);
+        add(new JScrollPane(textArea), BorderLayout.CENTER);
+        add(panel, BorderLayout.SOUTH);
 
-		// set up the button action
-		startButton.addActionListener(new ActionListener() {
+        // set up the button action
+        startButton.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent e) {
-				startButton.setEnabled(false);
-				final int MAX = 1000;
+            public void actionPerformed(ActionEvent e) {
+                startButton.setEnabled(false);
+                final int MAX = 1000;
 
-				// start activity
-				activity = new SimulatedActivity(MAX);
-				activity.execute();
+                // start activity
+                activity = new SimulatedActivity(MAX);
+                activity.execute();
 
-				// launch progress dialog
-				progressDialog = new ProgressMonitor(ProgressMonitorFrame.this, "Waiting for Simulated Activity", null,
-						0, MAX);
-				cancelMonitor.start();
-			}
-		});
-		
-		cancelMonitor = new Timer(500, new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				if (progressDialog.isCanceled()) {
-					activity.cancel(true);
-					startButton.setEnabled(true);
-				} else if (activity.isDone()) {
-					progressDialog.close();
-					startButton.setEnabled(true);
-				} else {
-					progressDialog.setProgress(activity.getProgress());
-				}
-			}
-		});
+                // launch progress dialog
+                progressDialog = new ProgressMonitor(ProgressMonitorFrame.this,
+                        "Waiting for Simulated Activity", null, 0, MAX);
+                cancelMonitor.start();
+            }
+        });
 
-	}
+        cancelMonitor = new Timer(500, new ActionListener() {
 
-	private Timer cancelMonitor;
-	private JButton startButton;
-	private ProgressMonitor progressDialog;
-	private JTextArea textArea;
-	private SimulatedActivity activity;
+            public void actionPerformed(ActionEvent e) {
+                if (progressDialog.isCanceled()) {
+                    activity.cancel(true);
+                    startButton.setEnabled(true);
+                } else if (activity.isDone()) {
+                    progressDialog.close();
+                    startButton.setEnabled(true);
+                } else {
+                    progressDialog.setProgress(activity.getProgress());
+                }
+            }
+        });
 
-	private static final int DEFAULT_WIDTH = 300;
-	private static final int DEFAULT_HEIGHT = 200;
+    }
 
-	class SimulatedActivity extends SwingWorker<Void, Integer> {
+    private Timer cancelMonitor;
+    private JButton startButton;
+    private ProgressMonitor progressDialog;
+    private JTextArea textArea;
+    private SimulatedActivity activity;
 
-		public SimulatedActivity(int t) {
-			current = 0;
-			target = t;
-		}
+    private static final int DEFAULT_WIDTH = 300;
+    private static final int DEFAULT_HEIGHT = 200;
 
-		@Override
-		protected Void doInBackground() throws Exception {
-			try {
-				while (current < target) {
-					Thread.sleep(100);
-					current++;
-					textArea.append(current + "\n");
-					setProgress(current);
-				}
-			} catch (InterruptedException e) {
-				// TODO: handle exception
-			}
-			// TODO Auto-generated method stub
-			return null;
-		}
+    class SimulatedActivity extends SwingWorker<Void, Integer> {
 
-		private int current;
-		private int target;
-	}
+        public SimulatedActivity(int t) {
+            current = 0;
+            target = t;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            try {
+                while (current < target) {
+                    Thread.sleep(100);
+                    current++;
+                    textArea.append(current + "\n");
+                    setProgress(current);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            
+            return null;
+        }
+
+        private int current;
+        private int target;
+    }
 }
