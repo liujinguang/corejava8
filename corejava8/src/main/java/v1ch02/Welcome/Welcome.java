@@ -1,4 +1,4 @@
-package v1ch02;
+package v1ch02.Welcome;
 
 public class Welcome {
 
