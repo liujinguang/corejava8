@@ -49,7 +49,7 @@ class Employee {
     @Override
     public String toString() {
         // TODO Auto-generated method stub
-        return "name=" + getName() + ",salary=" + getSalary() + ",hireDay="
+        return getClass().getName() + " name=" + getName() + ",salary=" + getSalary() + ",hireDay="
                 + getHireDay();
     }
 
