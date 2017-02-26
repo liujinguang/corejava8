@@ -1,4 +1,4 @@
-package v1ch07;
+package v1ch07.ImageTest;
 
 import java.awt.EventQueue;
 import java.awt.Graphics;

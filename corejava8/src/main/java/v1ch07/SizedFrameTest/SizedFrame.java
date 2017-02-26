@@ -1,4 +1,4 @@
-package v1ch07;
+package v1ch07.SizedFrameTest;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;

@@ -1,4 +1,4 @@
-package v1ch07;
+package v1ch07.NotHelloWorld;
 
 import java.awt.EventQueue;
 import java.awt.Graphics;

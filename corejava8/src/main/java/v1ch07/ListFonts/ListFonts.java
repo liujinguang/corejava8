@@ -1,6 +1,7 @@
-package v1ch07;
+package v1ch07.ListFonts;
 
 import java.awt.GraphicsEnvironment;
+import java.util.Locale;
 
 public class ListFonts {
 
@@ -14,6 +15,10 @@ public class ListFonts {
         for (String name : fontNames) {
             System.out.println(name);
         }
+        
+        
+        Locale locale = Locale.getDefault();
+        System.out.println(locale);
     }
 
 }
