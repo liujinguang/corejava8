@@ -2,14 +2,14 @@ package polymorphisim.shape;
 
 import static net.mindview.util.Print.*;
 
-public class Triangle extends Shape {
+public class Square extends Shape {
 	@Override
 	public void draw() {
-		print("Triangle.draw()");
+		print("Square.draw()");
 	}
 	
 	@Override
 	public void erase() {
-		print("Triangle.erase()");
+		print("Square.erase()");
 	}
 }
