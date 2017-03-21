@@ -1,4 +1,4 @@
-package v2ch08;
+package com.horstmann.corejava;
 
 import java.awt.Dimension;
 import java.io.File;
@@ -22,7 +22,7 @@ public class ImageViewBean extends JLabel {
      */
     public String getFileName() {
         if (file == null) {
-            return null;
+            return "";
         } else {
             return file.getPath();
         }
