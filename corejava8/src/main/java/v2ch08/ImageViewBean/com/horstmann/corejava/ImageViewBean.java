@@ -1,4 +1,4 @@
-package com.horstmann.corejava;
+package v2ch08.ImageViewBean.com.horstmann.corejava;
 
 import java.awt.Dimension;
 import java.io.File;
