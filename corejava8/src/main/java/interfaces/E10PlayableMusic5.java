@@ -1,16 +1,29 @@
-package interfaces.music5;
+package interfaces;
+
+/****************** Exercise 10 ******************
+* Add a Playable to Modify Music5.java, and move
+* the play() declaration from Instrument to
+* Playable. Include Playable in the implements
+* list to add it to the derived classes.
+* Change tune() so it takes a Playable instead
+* of an Instrument.
+***********************************************/
 
 import static net.mindview.util.Print.print;
 
 import polymorphisim.music.Note;
 
+interface Playable {
+    void play(Note n); // automatically public
+}
+
 interface Instrument {
-    int value = 5; //static final
-    void play(Note n);  //automatically public
+    int value = 5; // static final
+
     void adjust();
 }
 
-class Wind implements Instrument {
+class Wind implements Instrument, Playable {
 
     public void play(Note n) {
         print(this + ".play() " + n);
@@ -19,14 +32,14 @@ class Wind implements Instrument {
     public void adjust() {
         print(this + ".adjust()");
     }
-    
+
     @Override
     public String toString() {
         return "Wind";
     }
 }
 
-class Percussion implements Instrument {
+class Percussion implements Instrument, Playable {
 
     public void play(Note n) {
         print(this + ".play() " + n);
@@ -35,14 +48,14 @@ class Percussion implements Instrument {
     public void adjust() {
         print(this + ".adjust()");
     }
-    
+
     @Override
     public String toString() {
         return "Percussion";
     }
 }
 
-class Stringed implements Instrument {
+class Stringed implements Instrument, Playable {
 
     public void play(Note n) {
         print(this + ".play() " + n);
@@ -51,7 +64,7 @@ class Stringed implements Instrument {
     public void adjust() {
         print(this + ".adjust()");
     }
-    
+
     @Override
     public String toString() {
         return "Stringed";
@@ -72,27 +85,23 @@ class Woodwind extends Wind {
     }
 }
 
-public class Music5 {
+public class E10PlayableMusic5 {
     // don't care about type, so new types
     // added to the system still work right
-    static void tune(Instrument i) {
+    static void tune(Playable i) {
         i.play(Note.MIDDLE_C);
     }
 
-    static void tuneAll(Instrument[] e) {
-        for (Instrument i : e) {
+    static void tuneAll(Playable[] e) {
+        for (Playable i : e) {
             tune(i);
         }
     }
 
     public static void main(String[] args) {
         // upcasting during addition to the array
-        Instrument[] orchestra = { 
-                new Wind(), 
-                new Percussion(),
-                new Stringed(), 
-                new Brass(), 
-                new Woodwind() };
+        Playable[] orchestra = { new Wind(), new Percussion(), new Stringed(),
+                new Brass(), new Woodwind() };
 
         tuneAll(orchestra);
     }
